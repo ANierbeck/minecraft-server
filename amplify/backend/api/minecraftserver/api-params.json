@@ -1,0 +1,41 @@
+{
+    "paths": [
+        {
+            "name": "/instance/{instanceId}",
+            "lambdaFunction": "manageMinecraftServerState",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/instance/*"
+        }
+    ],
+    "resourceName": "minecraftserver",
+    "apiName": "minecraftserver",
+    "functionArns": [
+        {
+            "lambdaFunction": "manageMinecraftServerState"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-amplify6eea6d96da544-staging-164445-authRole",
+        "unAuthRoleName": "amplify-amplify6eea6d96da544-staging-164445-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "manageMinecraftServerState",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "57a2c64d"
+}

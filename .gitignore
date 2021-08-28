@@ -22,8 +22,6 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-amplify
-
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
