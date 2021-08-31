@@ -37,8 +37,8 @@ export default {
   },
   methods: {
     async retrieveInstances() {
-      const items = await API.get('minecraftserver', '/instances')
-      this.items = items.data
+      const response = await API.get('minecraftserver', '/instance')
+      this.items = response.data
     }
   },
 }
