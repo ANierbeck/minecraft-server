@@ -17,7 +17,7 @@
 
 <script>
 import ManageServers from './components/ManageServers.vue'
-import Amplify, {API} from 'aws-amplify';
+import Amplify, {API, Auth} from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
@@ -37,7 +37,16 @@ export default {
   },
   methods: {
     async retrieveInstances() {
-      const response = await API.get('minecraftserver', '/instance')
+
+      let myInit = {
+          headers: {
+            Authorization: `Bearer ${(await Auth.currentSession())
+              .getIdToken()
+              .getJwtToken()}`
+          }
+        }; 
+
+      const response = await API.get('minecraftserver', '/instance', myInit)
       this.items = response.data
     }
   },
