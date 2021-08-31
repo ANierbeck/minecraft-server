@@ -52,9 +52,12 @@ def handler(event, context):
     print('received event:')
     print(event)
 
-    reqcontxt = event.get("requestContext")
+    """ reqcontxt = event.get("requestContext")
     httpprtcl = reqcontxt.get("http")
-    methodname = httpprtcl.get("method")
+     """methodname = httpprtcl.get("method")
+
+    methodname = event.get("httpMethod")
+
     print('### http method name ###' + str(methodname))
 
     response = ''
