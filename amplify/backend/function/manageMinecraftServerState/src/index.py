@@ -9,10 +9,10 @@ ec2_resource = boto3.resource('ec2', region_name=region)
 
 def get_handler(event, context):
     #'i-093dfe36af46494b4'
-    instanceId = event.get('pathParameters').get('instanceId')
-    if instanceId is None:
+    if event.get('pathParameters') is None or event.get('pathParameters').get('instanceId') is None:
         return get_instances(event, context)
     else:
+        instanceId = event.get('pathParameters').get('instanceId')
         instance = ec2_resource.Instance(instanceId)
         print('started your instances: ' + str(instance))
         print('instance state: ' + str(instance.state['Code']))
@@ -54,29 +54,33 @@ def handler(event, context):
 
     """ reqcontxt = event.get("requestContext")
     httpprtcl = reqcontxt.get("http")
-     """methodname = httpprtcl.get("method")
+    methodname = httpprtcl.get("method")"""
 
     methodname = event.get("httpMethod")
 
     print('### http method name ###' + str(methodname))
 
-    response = ''
+    result = ''
 
     if "GET" == methodname.upper():
-        response = get_handler(event, context)
+        result = get_handler(event, context)
     elif "POST" == methodname.upper():
-        response = post_handler(event, context)
+        result = post_handler(event, context)
     elif "DEL" == methodname.upper():
-        response = delete_handler(event, context)
+        result = delete_handler(event, context)
     else:
         print('Default handler, nothing to do')
-  
-    return {
+
+    response = {
         'statusCode': 200,
         'headers': {
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
         },
-        'body': response
+        'body': json.dumps(result)
     }
+
+    print (response)
+  
+    return response
