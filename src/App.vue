@@ -4,7 +4,9 @@
       <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
       <div>
         <img alt="Vue logo" src="./assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+        
+        <manage-servers label="Minecraft"></manage-servers>
+        
         <div id="amplify-signout">
           <amplify-sign-out></amplify-sign-out>
         </div>
@@ -14,13 +16,31 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ManageServers from './components/ManageServers.vue'
+import Amplify, {API} from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
 export default {
+  components: { ManageServers },
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  async created() {
+    this.retrieveInstances();
+  },
+  commponents: {
+    ManageServers,
+  },
+  data() {
+    return {
+      items: []
+    }
+  },
+  methods: {
+    async retrieveInstances() {
+      const items = await API.get('minecraftserver', '/instances')
+      this.items = items.data
+    }
+  },
 }
 </script>
 

@@ -8,6 +8,12 @@ Amplify.configure(awsconfig);
 
 Vue.config.productionTip = false
 
+/* eslint-disable */
+function retrieveInstances() {
+  
+}
+/* eslint-enable */
+
 new Vue({
   render: h => h(App),
 }).$mount('#app')
