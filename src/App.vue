@@ -25,7 +25,11 @@ export default {
   components: { ManageServers },
   name: 'App',
   async created() {
-    this.retrieveInstances();
+    // You may have saved off the JWT somewhere when the user logged in.
+    // If not, get the token from aws-amplify:
+    const user = await Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.idToken.jwtToken;
+    this.retrieveInstances(token);
   },
   commponents: {
     ManageServers,
@@ -36,13 +40,11 @@ export default {
     }
   },
   methods: {
-    async retrieveInstances() {
+    async retrieveInstances(token) {
 
       let myInit = {
           headers: {
-            Authorization: `Bearer ${(await Auth.currentSession())
-              .getIdToken()
-              .getJwtToken()}`
+            Authorization: token
           }
         }; 
 
