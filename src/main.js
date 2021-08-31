@@ -3,7 +3,7 @@ import App from './App.vue'
 //import '@aws-amplify/ui-vue';
 
 import Amplify, * as AmplifyModules from 'aws-amplify';
-import { AmplifyPlugin } from 'aws-amplify-vue';
+import { AmplifyPlugin } from '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 Vue.use(AmplifyPlugin, AmplifyModules);
