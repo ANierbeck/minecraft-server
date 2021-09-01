@@ -27,9 +27,7 @@ export default {
   async created() {
     // You may have saved off the JWT somewhere when the user logged in.
     // If not, get the token from aws-amplify:
-    const user = await Auth.currentAuthenticatedUser();
-    const token = user.signInUserSession.idToken.jwtToken;
-    this.retrieveInstances(token);
+    this.retrieveInstances();
   },
   commponents: {
     ManageServers,
@@ -40,16 +38,18 @@ export default {
     }
   },
   methods: {
-    async retrieveInstances(token) {
+    async retrieveInstances() {
 
-      let myInit = {
-          headers: {
-            Authorization: token
-          }
-        }; 
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.idToken.jwtToken;
 
-      const response = await API.get('minecraftserver', '/instance', myInit)
-      this.items = response.data
+      API.get('minecraftserver', '/instance/', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(response => {
+        this.items = response.data;
+      });
     }
   },
 }
